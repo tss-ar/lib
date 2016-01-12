@@ -11,8 +11,8 @@ module.exports = {
         lib: {
             css: 'dist',
             html: 'dist',
-            js: 'dist',
-            jsProd: 'dist'
+            js: 'dist/lib',
+            jsTds: 'dist/dts'
         }
     }
 };

@@ -14,8 +14,28 @@ var uglify = require('gulp-uglify');
 var merge = require('merge2');
 var rename = require('gulp-rename');
 var config = require('./gulp.conf');
+    var dts = require('dts-bundle');
 
 var tsProjectSrc = ts.createProject('./src/tsconfig.json');
+
+// var dtsGenerator = require('dts-generator');
+
+gulp.task('dts', function () {
+    dts.bundle({
+        name: 'tss-lib',
+        main: path.join(config.dest.lib.jsTds, 'index.d.ts'),
+        out: path.join(__dirname, config.dest.lib.js, 'index.d.ts')
+    });
+
+    // dtsGenerator.default({
+    //     name: 'tss-lib',
+    //     project: './src',
+    //     main: 'tss-lib',
+    //     out: 'tss-lib.d.ts',
+    //     //files: config.src.lib.js,
+    //     excludes: ['typings/**']
+    // });
+});
 
 function sequenceComplete(done) {
     return function (err) {
@@ -59,7 +79,7 @@ gulp.task('build.js', function () {
         .pipe(gulp.dest(config.dest.lib.js));
 
     return merge([
-        tsResult.dts.pipe(gulp.dest(config.dest.lib.js)),
+        tsResult.dts.pipe(gulp.dest(config.dest.lib.jsTds)),
         jsStream
     ]);
 });
